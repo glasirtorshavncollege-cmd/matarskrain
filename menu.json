@@ -1,0 +1,26 @@
+{
+  "source": "https://www.glasir.fo/um-skulan/kantinan-a-glasi/",
+  "updated_at": "2026-08-24T11:45:44Z",
+  "days": [
+    {
+      "day": "Mánadag",
+      "dish": "Kjøtbollar í tomastsós við spagetti"
+    },
+    {
+      "day": "Týsdag",
+      "dish": "Nudlurættur við svínakjøti"
+    },
+    {
+      "day": "Mikudag",
+      "dish": "Suppa við kjøt og mjølbollum hartil flute"
+    },
+    {
+      "day": "Hósdag",
+      "dish": "Dampa hýsa við súltaðum reyðleyki, kaperssmøri og eplum (glutenfríur valmøguleiki)"
+    },
+    {
+      "day": "Fríggjadag",
+      "dish": "Pull pork burgari (glutenfríur valmøguleiki)"
+    }
+  ]
+}
