@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="fo">
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta http-equiv="refresh" content="900">
+
+  <title>Matskrá á Glasi</title>
+
+  <style>
+    :root {
+      --dark: #005a46;
+      --green: #0b8a64;
+      --lime: #76b82a;
+      --text: #111816;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #f8fbf9;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          145deg,
+          #ffffff 0%,
+          #f6faf7 100%
+        );
+    }
+
+    .leaf-top,
+    .leaf-bottom {
+      position: absolute;
+      right: 18px;
+      width: 190px;
+      opacity: 0.22;
+    }
+
+    .leaf-top {
+      top: 20px;
+    }
+
+    .leaf-bottom {
+      bottom: -15px;
+      transform: scaleX(-1);
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+
+      width: 100%;
+      height: 100%;
+      padding: 54px 66px 48px;
+
+      display: grid;
+      grid-template-rows: 180px 1fr 34px;
+      gap: 28px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    h1 {
+      margin: 0;
+
+      color: var(--dark);
+      font-size: 74px;
+      line-height: 0.95;
+      letter-spacing: -0.045em;
+    }
+
+    .subtitle {
+      margin-top: 18px;
+
+      color: var(--green);
+      font-size: 29px;
+    }
+
+    .clock {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      padding-top: 18px;
+
+      color: var(--dark);
+      font-size: 24px;
+      white-space: nowrap;
+    }
+
+    .clock svg {
+      width: 28px;
+      height: 28px;
+
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 26px;
+    }
+
+    .card {
+      position: relative;
+
+      height: 210px;
+      flex: 0 0 210px;
+
+      display: grid;
+      grid-template-columns: 20px 76px 205px 1fr;
+      align-items: center;
+      column-gap: 12px;
+
+      overflow: hidden;
+
+      background: rgba(255, 255, 255, 0.97);
+      border: 3px solid transparent;
+      border-radius: 22px;
+
+      box-shadow:
+        0 12px 28px
+        rgba(0, 70, 52, 0.11);
+    }
+
+    .card.today {
+      background: transparent;
+      border-color: var(--dark);
+      box-shadow: none;
+    }
+
+    .stripe {
+      height: 100%;
+    }
+
+    .card:nth-child(1) .stripe {
+      background: #59b7a6;
+    }
+
+    .card:nth-child(2) .stripe {
+      background: #79b92f;
+    }
+
+    .card:nth-child(3) .stripe {
+      background: #1ca27f;
+    }
+
+    .card:nth-child(4) .stripe {
+      background: #005a46;
+    }
+
+    .card:nth-child(5) .stripe {
+      background: #8bc53e;
+    }
+
+    .icon-disc {
+      width: 68px;
+      height: 68px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: visible;
+    }
+
+    .icon-disc img {
+      display: block;
+
+      width: 68px;
+      height: 68px;
+
+      object-fit: contain;
+      transform-origin: center;
+    }
+
+    /*
+      Javnar sjónligu støddina á ikonunum.
+    */
+
+    .card:nth-child(1) .icon-disc img {
+      transform: scale(1.8);
+    }
+
+    .card:nth-child(2) .icon-disc img {
+      transform: scale(1.05);
+    }
+
+    .card:nth-child(3) .icon-disc img {
+      transform: scale(1.65);
+    }
+
+    .card:nth-child(4) .icon-disc img {
+      transform: scale(1.55);
+    }
+
+    .card:nth-child(5) .icon-disc img {
+      transform: scale(1.55);
+    }
+
+    .day-wrap {
+      display: flex;
+      align-items: center;
+
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .day {
+      margin: 0;
+
+      color: var(--dark);
+      font-size: 34px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .card:nth-child(2) .day,
+    .card:nth-child(5) .day {
+      color: #5c9f20;
+    }
+
+    .badge {
+      display: none;
+
+      position: absolute;
+      top: 14px;
+      left: 42px;
+      z-index: 3;
+
+      padding: 9px 16px;
+      border-radius: 999px;
+
+      background: var(--green);
+      color: #ffffff;
+
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .today .badge {
+      display: block;
+    }
+
+    .dish {
+      margin: 0;
+      padding-right: 32px;
+
+      font-size: 34px;
+      font-weight: 500;
+      line-height: 1.16;
+
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      display: flex;
+      justify-content: flex-end;
+
+      color: var(--green);
+      font-size: 17px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stage">
+
+    <div class="leaf-top">
+      <svg viewBox="0 0 180 300" aria-hidden="true">
+        <g
+          fill="none"
+          stroke="#7fb69f"
+          stroke-width="3"
+        >
+          <path d="M90 295 C88 210 100 120 125 18"/>
+          <path d="M102 235 C70 212 50 188 38 162"/>
+          <path d="M112 175 C142 148 160 120 168 92"/>
+          <path d="M119 112 C92 92 78 70 70 46"/>
+        </g>
+
+        <g fill="#b7d7c8">
+          <ellipse
+            cx="54"
+            cy="167"
+            rx="26"
+            ry="13"
+            transform="rotate(38 54 167)"
+          />
+
+          <ellipse
+            cx="154"
+            cy="102"
+            rx="29"
+            ry="14"
+            transform="rotate(-40 154 102)"
+          />
+
+          <ellipse
+            cx="80"
+            cy="58"
+            rx="27"
+            ry="13"
+            transform="rotate(34 80 58)"
+          />
+
+          <ellipse
+            cx="100"
+            cy="230"
+            rx="29"
+            ry="14"
+            transform="rotate(-24 100 230)"
+          />
+        </g>
+      </svg>
+    </div>
+
+    <div class="leaf-bottom">
+      <svg viewBox="0 0 180 300" aria-hidden="true">
+        <g
+          fill="none"
+          stroke="#7fb69f"
+          stroke-width="3"
+        >
+          <path d="M90 295 C88 210 100 120 125 18"/>
+          <path d="M102 235 C70 212 50 188 38 162"/>
+          <path d="M112 175 C142 148 160 120 168 92"/>
+          <path d="M119 112 C92 92 78 70 70 46"/>
+        </g>
+
+        <g fill="#b7d7c8">
+          <ellipse
+            cx="54"
+            cy="167"
+            rx="26"
+            ry="13"
+            transform="rotate(38 54 167)"
+          />
+
+          <ellipse
+            cx="154"
+            cy="102"
+            rx="29"
+            ry="14"
+            transform="rotate(-40 154 102)"
+          />
+
+          <ellipse
+            cx="80"
+            cy="58"
+            rx="27"
+            ry="13"
+            transform="rotate(34 80 58)"
+          />
+
+          <ellipse
+            cx="100"
+            cy="230"
+            rx="29"
+            ry="14"
+            transform="rotate(-24 100 230)"
+          />
+        </g>
+      </svg>
+    </div>
+
+    <main>
+      <header>
+        <div>
+          <h1>Matskrá á Glasi</h1>
+
+          <div class="subtitle">
+            Døgurði frá kl. 11:15 til 12:30
+          </div>
+        </div>
+
+        <div class="clock">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect
+              x="3"
+              y="5"
+              width="18"
+              height="16"
+              rx="2"
+            />
+
+            <path d="M8 3v4M16 3v4M3 10h18"/>
+
+            <path
+              d="M7 14h2
+                 M11 14h2
+                 M15 14h2
+                 M7 18h2
+                 M11 18h2"
+            />
+          </svg>
+
+          <span id="dateText"></span>
+          <span>|</span>
+          <strong id="timeText"></strong>
+        </div>
+      </header>
+
+      <section
+        class="menu"
+        id="menu"
+        aria-live="polite"
+      ></section>
+
+      <footer>
+        <span id="updated"></span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var dayIndex = {
+        "Mánadag": 1,
+        "Týsdag": 2,
+        "Mikudag": 3,
+        "Hósdag": 4,
+        "Fríggjadag": 5
+      };
+
+      var icons = [
+        "menu-icon-1.png",
+        "menu-icon-2.png",
+        "menu-icon-3.png",
+        "menu-icon-4.png",
+        "menu-icon-5.png"
+      ];
+
+      var iconVersion = "20260803-1";
+      var storageKey = "glasir-menu-cache-index-v1";
+      var retryDelay = 30000;
+      var refreshDelay = 15 * 60 * 1000;
+      var requestTimeout = 12000;
+      var retryTimer = null;
+      var refreshTimer = null;
+
+      function twoDigits(number) {
+        return number < 10 ? "0" + number : "" + number;
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function updateClock() {
+        var now = new Date();
+
+        var weekdays = [
+          "sunnudagur",
+          "mánadagur",
+          "týsdagur",
+          "mikudagur",
+          "hósdagur",
+          "fríggjadagur",
+          "leygardagur"
+        ];
+
+        var months = [
+          "januar",
+          "februar",
+          "mars",
+          "apríl",
+          "mai",
+          "juni",
+          "juli",
+          "august",
+          "september",
+          "oktober",
+          "november",
+          "desember"
+        ];
+
+        document.getElementById("dateText").innerHTML =
+          weekdays[now.getDay()] + " " +
+          now.getDate() + ". " +
+          months[now.getMonth()];
+
+        document.getElementById("timeText").innerHTML =
+          twoDigits(now.getHours()) + "." +
+          twoDigits(now.getMinutes());
+      }
+
+      function formatDate(value) {
+        var date = new Date(value);
+
+        if (isNaN(date.getTime())) {
+          return String(value);
+        }
+
+        return (
+          twoDigits(date.getDate()) + "." +
+          twoDigits(date.getMonth() + 1) + "." +
+          date.getFullYear() +
+          " kl. " +
+          twoDigits(date.getHours()) + "." +
+          twoDigits(date.getMinutes())
+        );
+      }
+
+      function showMessage(message) {
+        document.getElementById("menu").innerHTML =
+          '<div style="' +
+            'height:100%;' +
+            'display:flex;' +
+            'align-items:center;' +
+            'justify-content:center;' +
+            'font-size:42px;' +
+            'font-weight:700;' +
+            'color:#005a46;' +
+            'text-align:center;' +
+          '">' +
+            escapeHtml(message) +
+          '</div>';
+      }
+
+      function renderMenu(data, fromCache) {
+        if (!data || !data.days || !data.days.length) {
+          throw new Error("Ógildug menu.json");
+        }
+
+        var menu = document.getElementById("menu");
+        var today = new Date().getDay();
+        var html = "";
+        var i;
+        var item;
+        var todayClass;
+        var iconUrl;
+        var dish;
+
+        for (i = 0; i < data.days.length; i++) {
+          item = data.days[i];
+          todayClass = dayIndex[item.day] === today ? " today" : "";
+          iconUrl = icons[i] + "?v=" + iconVersion;
+          dish = item.dish || "Eingin rættur er skrásettur";
+
+          html +=
+            '<article class="card' + todayClass + '">' +
+              '<div class="stripe"></div>' +
+              '<span class="badge">Í DAG</span>' +
+              '<div class="icon-disc">' +
+                '<img src="' + iconUrl + '" alt="">' +
+              '</div>' +
+              '<div class="day-wrap">' +
+                '<h2 class="day">' + escapeHtml(item.day) + '</h2>' +
+              '</div>' +
+              '<p class="dish">' + escapeHtml(dish) + '</p>' +
+            '</article>';
+        }
+
+        menu.innerHTML = html;
+
+        if (data.updated_at) {
+          document.getElementById("updated").innerHTML =
+            (fromCache ? "Seinast goymt · " : "Dagført ") +
+            escapeHtml(formatDate(data.updated_at));
+        } else {
+          document.getElementById("updated").innerHTML =
+            fromCache ? "Vísir seinast goymdu matskrá" : "";
+        }
+      }
+
+      function saveCache(data) {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(data));
+        } catch (error) {
+        }
+      }
+
+      function loadCache() {
+        try {
+          var cached = localStorage.getItem(storageKey);
+          return cached ? JSON.parse(cached) : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function scheduleRetry() {
+        if (retryTimer) {
+          clearTimeout(retryTimer);
+        }
+
+        retryTimer = setTimeout(loadMenu, retryDelay);
+      }
+
+      function scheduleRefresh() {
+        if (refreshTimer) {
+          clearTimeout(refreshTimer);
+        }
+
+        refreshTimer = setTimeout(loadMenu, refreshDelay);
+      }
+
+      function handleFailure() {
+        var cached = loadCache();
+
+        if (cached) {
+          try {
+            renderMenu(cached, true);
+          } catch (error) {
+            showMessage("Matskráin fekst ikki fram. Roynir aftur...");
+          }
+        } else {
+          showMessage("Matskráin fekst ikki fram. Roynir aftur...");
+        }
+
+        scheduleRetry();
+      }
+
+      function loadMenu() {
+        var request = new XMLHttpRequest();
+        var finished = false;
+
+        request.open(
+          "GET",
+          "menu.json?v=" + new Date().getTime(),
+          true
+        );
+
+        request.timeout = requestTimeout;
+
+        request.onreadystatechange = function () {
+          if (request.readyState !== 4 || finished) {
+            return;
+          }
+
+          finished = true;
+
+          if (request.status >= 200 && request.status < 300) {
+            try {
+              var data = JSON.parse(request.responseText);
+              renderMenu(data, false);
+              saveCache(data);
+              scheduleRefresh();
+            } catch (error) {
+              handleFailure();
+            }
+          } else {
+            handleFailure();
+          }
+        };
+
+        request.onerror = function () {
+          if (!finished) {
+            finished = true;
+            handleFailure();
+          }
+        };
+
+        request.ontimeout = function () {
+          if (!finished) {
+            finished = true;
+            handleFailure();
+          }
+        };
+
+        try {
+          request.send();
+        } catch (error) {
+          if (!finished) {
+            finished = true;
+            handleFailure();
+          }
+        }
+      }
+
+      updateClock();
+      setInterval(updateClock, 30000);
+
+      var cached = loadCache();
+
+      if (cached) {
+        try {
+          renderMenu(cached, true);
+        } catch (error) {
+        }
+      }
+
+      loadMenu();
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="fo">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="1800">
+  <title>Matskrá á Glasi</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #063b31;
+      background: #ffffff;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    /* MagicINFO/Tizen 4-safe: vanlig HTML-løg, eingin filter/backdrop-filter */
+    .photo {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 62%;
+      height: 100%;
+      background-image: url("kantina-photo.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    .photo-wash {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 62%;
+      height: 100%;
+      background: rgba(255,255,255,0.30);
+    }
+
+    .left-fade {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 58%;
+      height: 100%;
+      background: rgba(255,255,255,0.98);
+    }
+
+    .soft-middle {
+      position: absolute;
+      top: 0;
+      left: 46%;
+      width: 24%;
+      height: 100%;
+      background: rgba(255,255,255,0.72);
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+    }
+
+    h1 {
+      position: absolute;
+      top: 78px;
+      left: 56px;
+      margin: 0;
+      color: #004d3c;
+      font-size: 108px;
+      line-height: 0.95;
+      letter-spacing: -4px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      position: absolute;
+      top: 205px;
+      left: 56px;
+      color: #2f6d24;
+      font-size: 42px;
+      line-height: 1;
+    }
+
+    .clock {
+      position: absolute;
+      top: 44px;
+      right: 56px;
+      padding: 18px 26px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.94);
+      color: #0d4537;
+      font-size: 24px;
+      white-space: nowrap;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    /*
+      HARDAÐ LAYOUT:
+      Menuøkið hevur fasta geometri á 1916x1073 landscape.
+      Cards hava fasta hædd og fasta x-staðseting.
+      Einki table/flex prosent-hæddar-arving.
+    */
+    .menu {
+      position: absolute;
+      top: 365px;
+      left: 56px;
+      width: 1804px;
+      height: 610px;
+    }
+
+    .day-cell {
+      position: absolute;
+      top: 0;
+      width: 340px;
+      height: 610px;
+    }
+
+    .d1 { left: 0; }
+    .d2 { left: 366px; }
+    .d3 { left: 732px; }
+    .d4 { left: 1098px; }
+    .d5 { left: 1464px; }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 340px;
+      height: 610px;
+      background: rgba(255,255,255,0.96);
+      border: 2px solid rgba(0,0,0,0.05);
+      border-radius: 18px;
+      overflow: visible;
+      box-shadow: 0 7px 22px rgba(0,0,0,0.10);
+    }
+
+    .card.today {
+      z-index: 3;
+      border: 4px solid #6fb02d;
+      background: rgba(255,255,255,0.98);
+    }
+
+    .topline {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: calc(100% + 4px);
+      height: 12px;
+      border-radius: 16px 16px 0 0;
+      background: #8abb45;
+      z-index: 1;
+    }
+
+    .c2 .topline { background: #4f9cd0; }
+    .c3 .topline { background: #ee6a1b; }
+    .c4 .topline { background: #8b68bd; }
+    .c1 .topline { background: #8abb45; }
+    .c5 .topline { background: #4f8f33; }
+
+    .day {
+      position: absolute;
+      top: 42px;
+      left: 10px;
+      right: 10px;
+      margin: 0;
+      color: #073b31;
+      font-size: 31px;
+      line-height: 1;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .rule {
+      position: absolute;
+      top: 118px;
+      left: 13%;
+      width: 74%;
+      height: 4px;
+      background: #8abb45;
+    }
+
+    .c2 .rule { background: #4f9cd0; }
+    .c3 .rule { background: #ee6a1b; }
+    .c4 .rule { background: #8b68bd; }
+    .c1 .rule { background: #8abb45; }
+    .c5 .rule { background: #4f8f33; }
+
+    .dish-box {
+      position: absolute;
+      top: 145px;
+      left: 18px;
+      right: 18px;
+      bottom: 24px;
+      display: table;
+      table-layout: fixed;
+      width: 304px;
+      overflow: hidden;
+    }
+
+    .dish-cell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      width: 304px;
+      overflow: hidden;
+    }
+
+    .dish {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      color: #073b31;
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.16;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: break-word;
+    }
+
+    .badge {
+      display: none;
+      position: absolute;
+      top: -33px;
+      left: 96px;
+      width: 148px;
+      padding: 12px 0 13px;
+      border-radius: 30px;
+      background: #70ad2c;
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      z-index: 9;
+    }
+
+    .card.today .badge {
+      display: block;
+    }
+
+    footer {
+      position: absolute;
+      left: 210px;
+      bottom: 26px;
+      height: 46px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      background: rgba(244,249,235,0.94);
+      color: #315c48;
+      font-size: 18px;
+    }
+
+    #connectionStatus {
+      margin-right: 18px;
+      color: #76877f;
+    }
+
+    .status {
+      position: absolute;
+      top: 365px;
+      left: 56px;
+      width: 1804px;
+      height: 610px;
+      display: table;
+      background: rgba(255,255,255,0.94);
+      border-radius: 18px;
+    }
+
+    .status span {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      color: #004d3c;
+      font-size: 36px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stage">
+    <div class="photo"></div>
+    <div class="photo-wash"></div>
+    <div class="left-fade"></div>
+    <div class="soft-middle"></div>
+
+    <main>
+      <h1>Matskrá á Glasi</h1>
+      <div class="subtitle">Døgurði frá kl. 11:15 til 12:30</div>
+
+      <div class="clock">
+        <span id="dateText"></span>
+        <span> | </span>
+        <strong id="timeText"></strong>
+      </div>
+
+      <section class="menu" id="menu">
+        <div class="status"><span>Lesur matskránna…</span></div>
+      </section>
+
+      <footer>
+        <span id="connectionStatus"></span>
+        <span id="updated"></span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var menuDays = {
+        "Mánadag": 1,
+        "Týsdag": 2,
+        "Mikudag": 3,
+        "Hósdag": 4,
+        "Fríggjadag": 5
+      };
+
+      var storageKey = "glasir-menu-cache-kantinan-bright-hardened-v1";
+      var retryDelay = 30000;
+      var refreshDelay = 15 * 60 * 1000;
+      var requestTimeout = 12000;
+      var retryTimer = null;
+      var refreshTimer = null;
+
+      function twoDigits(number) {
+        return number < 10 ? "0" + number : "" + number;
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function updateClock() {
+        var now = new Date();
+
+        var weekdays = [
+          "sunnudagur",
+          "mánadagur",
+          "týsdagur",
+          "mikudagur",
+          "hósdagur",
+          "fríggjadagur",
+          "leygardagur"
+        ];
+
+        var months = [
+          "januar",
+          "februar",
+          "mars",
+          "apríl",
+          "mai",
+          "juni",
+          "juli",
+          "august",
+          "september",
+          "oktober",
+          "november",
+          "desember"
+        ];
+
+        document.getElementById("dateText").innerHTML =
+          weekdays[now.getDay()] + " " +
+          now.getDate() + ". " +
+          months[now.getMonth()];
+
+        document.getElementById("timeText").innerHTML =
+          twoDigits(now.getHours()) + "." +
+          twoDigits(now.getMinutes());
+      }
+
+      function formatDate(value) {
+        var d = new Date(value);
+
+        if (isNaN(d.getTime())) {
+          return String(value);
+        }
+
+        return (
+          twoDigits(d.getDate()) + "." +
+          twoDigits(d.getMonth() + 1) + "." +
+          d.getFullYear() +
+          " kl. " +
+          twoDigits(d.getHours()) + "." +
+          twoDigits(d.getMinutes())
+        );
+      }
+
+      function setConnectionStatus(text) {
+        document.getElementById("connectionStatus").innerHTML =
+          escapeHtml(text || "");
+      }
+
+      function showMessage(message) {
+        document.getElementById("menu").innerHTML =
+          '<div class="status"><span>' +
+          escapeHtml(message) +
+          '</span></div>';
+      }
+
+      function renderMenu(data, fromCache) {
+        if (!data || !data.days || !data.days.length) {
+          throw new Error("Ógildug menu.json");
+        }
+
+        var today = new Date().getDay();
+        var html = "";
+        var i;
+        var item;
+        var todayClass;
+        var dish;
+
+        for (i = 0; i < data.days.length; i++) {
+          item = data.days[i];
+          todayClass = menuDays[item.day] === today ? " today" : "";
+          dish = item.dish ? item.dish : "Eingin rættur er skrásettur";
+
+          html +=
+            '<div class="day-cell d' + (i + 1) + '">' +
+              '<article class="card c' + (i + 1) + todayClass + '">' +
+                '<span class="badge">Í DAG</span>' +
+                '<div class="topline"></div>' +
+                '<h2 class="day">' + escapeHtml(item.day) + '</h2>' +
+                '<div class="rule"></div>' +
+                '<div class="dish-box">' +
+                  '<div class="dish-cell">' +
+                    '<p class="dish">' + escapeHtml(dish) + '</p>' +
+                  '</div>' +
+                '</div>' +
+              '</article>' +
+            '</div>';
+        }
+
+        document.getElementById("menu").innerHTML = html;
+
+        if (data.updated_at) {
+          document.getElementById("updated").innerHTML =
+            "Dagført " + escapeHtml(formatDate(data.updated_at));
+        } else {
+          document.getElementById("updated").innerHTML = "";
+        }
+
+        setConnectionStatus(
+          fromCache ? "Vísir seinast goymdu matskrá" : ""
+        );
+      }
+
+      function saveCache(data) {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(data));
+        } catch (error) {}
+      }
+
+      function loadCache() {
+        try {
+          var cached = localStorage.getItem(storageKey);
+          return cached ? JSON.parse(cached) : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function scheduleRetry() {
+        if (retryTimer) clearTimeout(retryTimer);
+        retryTimer = setTimeout(loadMenu, retryDelay);
+      }
+
+      function scheduleRefresh() {
+        if (refreshTimer) clearTimeout(refreshTimer);
+        refreshTimer = setTimeout(loadMenu, refreshDelay);
+      }
+
+      function handleFailure() {
+        var cached = loadCache();
+
+        if (cached) {
+          try {
+            renderMenu(cached, true);
+            setConnectionStatus("Samband fekst ikki – roynir aftur");
+          } catch (error) {
+            showMessage("Matskráin fekst ikki fram. Roynir aftur...");
+          }
+        } else {
+          showMessage("Matskráin fekst ikki fram. Roynir aftur...");
+        }
+
+        scheduleRetry();
+      }
+
+      function loadMenu() {
+        var request = new XMLHttpRequest();
+        var finished = false;
+
+        setConnectionStatus("Dagførir…");
+
+        request.open(
+          "GET",
+          "menu.json?v=" + new Date().getTime(),
+          true
+        );
+
+        request.timeout = requestTimeout;
+
+        request.onreadystatechange = function () {
+          if (request.readyState !== 4 || finished) return;
+
+          finished = true;
+
+          if (request.status >= 200 && request.status < 300) {
+            try {
+              var data = JSON.parse(request.responseText);
+              renderMenu(data, false);
+              saveCache(data);
+              scheduleRefresh();
+            } catch (error) {
+              handleFailure();
+            }
+          } else {
+            handleFailure();
+          }
+        };
+
+        request.onerror = function () {
+          if (!finished) {
+            finished = true;
+            handleFailure();
+          }
+        };
+
+        request.ontimeout = function () {
+          if (!finished) {
+            finished = true;
+            handleFailure();
+          }
+        };
+
+        try {
+          request.send();
+        } catch (error) {
+          if (!finished) {
+            finished = true;
+            handleFailure();
+          }
+        }
+      }
+
+      updateClock();
+      setInterval(updateClock, 30000);
+
+      var cached = loadCache();
+
+      if (cached) {
+        try {
+          renderMenu(cached, true);
+        } catch (error) {}
+      }
+
+      loadMenu();
+    }());
+  </script>
+</body>
+</html>
