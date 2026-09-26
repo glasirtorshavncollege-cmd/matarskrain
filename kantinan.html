@@ -30,7 +30,7 @@
       background: #ffffff;
     }
 
-    /* MagicINFO/Tizen 4-safe: vanlig HTML-løg, eingin filter/backdrop-filter */
+    /* MagicINFO/Tizen 4-safe */
     .photo {
       position: absolute;
       top: 0;
@@ -100,23 +100,36 @@
 
     .clock {
       position: absolute;
-      top: 44px;
+      top: 32px;
       right: 56px;
-      padding: 18px 26px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.94);
+      width: 500px;
+      min-height: 178px;
+      padding: 20px 28px 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.96);
       color: #0d4537;
-      font-size: 24px;
-      white-space: nowrap;
+      text-align: center;
       box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     }
 
-    /*
-      HARDAÐ LAYOUT:
-      Menuøkið hevur fasta geometri á 1916x1073 landscape.
-      Cards hava fasta hædd og fasta x-staðseting.
-      Einki table/flex prosent-hæddar-arving.
-    */
+    .clock-date {
+      color: #315c48;
+      font-size: 36px;
+      line-height: 1.05;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .clock-time {
+      margin-top: 10px;
+      color: #004d3c;
+      font-size: 94px;
+      line-height: 0.92;
+      font-weight: 700;
+      letter-spacing: -3px;
+      white-space: nowrap;
+    }
+
     .menu {
       position: absolute;
       top: 365px;
@@ -167,10 +180,10 @@
       z-index: 1;
     }
 
+    .c1 .topline { background: #8abb45; }
     .c2 .topline { background: #4f9cd0; }
     .c3 .topline { background: #ee6a1b; }
     .c4 .topline { background: #8b68bd; }
-    .c1 .topline { background: #8abb45; }
     .c5 .topline { background: #4f8f33; }
 
     .day {
@@ -196,10 +209,10 @@
       background: #8abb45;
     }
 
+    .c1 .rule { background: #8abb45; }
     .c2 .rule { background: #4f9cd0; }
     .c3 .rule { background: #ee6a1b; }
     .c4 .rule { background: #8b68bd; }
-    .c1 .rule { background: #8abb45; }
     .c5 .rule { background: #4f8f33; }
 
     .dish-box {
@@ -232,6 +245,7 @@
       font-size: 34px;
       font-weight: 700;
       line-height: 1.16;
+      text-align: center;
       white-space: normal;
       word-break: normal;
       overflow-wrap: break-word;
@@ -258,23 +272,6 @@
 
     .card.today .badge {
       display: block;
-    }
-
-    footer {
-      position: absolute;
-      left: 210px;
-      bottom: 26px;
-      height: 46px;
-      padding: 12px 22px;
-      border-radius: 12px;
-      background: rgba(244,249,235,0.94);
-      color: #315c48;
-      font-size: 18px;
-    }
-
-    #connectionStatus {
-      margin-right: 18px;
-      color: #76877f;
     }
 
     .status {
@@ -311,19 +308,15 @@
       <div class="subtitle">Døgurði frá kl. 11:15 til 12:30</div>
 
       <div class="clock">
-        <span id="dateText"></span>
-        <span> | </span>
-        <strong id="timeText"></strong>
+        <div class="clock-date" id="dateText"></div>
+        <div class="clock-time" id="timeText"></div>
       </div>
 
       <section class="menu" id="menu">
-        <div class="status"><span>Lesur matskránna…</span></div>
+        <div class="status">
+          <span>Lesur matskránna…</span>
+        </div>
       </section>
-
-      <footer>
-        <span id="connectionStatus"></span>
-        <span id="updated"></span>
-      </footer>
     </main>
   </div>
 
@@ -337,7 +330,7 @@
         "Fríggjadag": 5
       };
 
-      var storageKey = "glasir-menu-cache-kantinan-bright-hardened-v1";
+      var storageKey = "glasir-menu-cache-kantinan-bright-hardened-v5";
       var retryDelay = 30000;
       var refreshDelay = 15 * 60 * 1000;
       var requestTimeout = 12000;
@@ -395,26 +388,8 @@
           twoDigits(now.getMinutes());
       }
 
-      function formatDate(value) {
-        var d = new Date(value);
-
-        if (isNaN(d.getTime())) {
-          return String(value);
-        }
-
-        return (
-          twoDigits(d.getDate()) + "." +
-          twoDigits(d.getMonth() + 1) + "." +
-          d.getFullYear() +
-          " kl. " +
-          twoDigits(d.getHours()) + "." +
-          twoDigits(d.getMinutes())
-        );
-      }
-
       function setConnectionStatus(text) {
-        document.getElementById("connectionStatus").innerHTML =
-          escapeHtml(text || "");
+        return;
       }
 
       function showMessage(message) {
@@ -438,19 +413,28 @@
 
         for (i = 0; i < data.days.length; i++) {
           item = data.days[i];
-          todayClass = menuDays[item.day] === today ? " today" : "";
-          dish = item.dish ? item.dish : "Eingin rættur er skrásettur";
+          todayClass =
+            menuDays[item.day] === today ? " today" : "";
+
+          dish =
+            item.dish ?
+            item.dish :
+            "Eingin rættur er skrásettur";
 
           html +=
             '<div class="day-cell d' + (i + 1) + '">' +
               '<article class="card c' + (i + 1) + todayClass + '">' +
                 '<span class="badge">Í DAG</span>' +
                 '<div class="topline"></div>' +
-                '<h2 class="day">' + escapeHtml(item.day) + '</h2>' +
+                '<h2 class="day">' +
+                  escapeHtml(item.day) +
+                '</h2>' +
                 '<div class="rule"></div>' +
                 '<div class="dish-box">' +
                   '<div class="dish-cell">' +
-                    '<p class="dish">' + escapeHtml(dish) + '</p>' +
+                    '<p class="dish">' +
+                      escapeHtml(dish) +
+                    '</p>' +
                   '</div>' +
                 '</div>' +
               '</article>' +
@@ -458,42 +442,46 @@
         }
 
         document.getElementById("menu").innerHTML = html;
-
-        if (data.updated_at) {
-          document.getElementById("updated").innerHTML =
-            "Dagført " + escapeHtml(formatDate(data.updated_at));
-        } else {
-          document.getElementById("updated").innerHTML = "";
-        }
-
-        setConnectionStatus(
-          fromCache ? "Vísir seinast goymdu matskrá" : ""
-        );
       }
 
       function saveCache(data) {
         try {
-          localStorage.setItem(storageKey, JSON.stringify(data));
+          localStorage.setItem(
+            storageKey,
+            JSON.stringify(data)
+          );
         } catch (error) {}
       }
 
       function loadCache() {
         try {
-          var cached = localStorage.getItem(storageKey);
-          return cached ? JSON.parse(cached) : null;
+          var cached =
+            localStorage.getItem(storageKey);
+
+          return cached ?
+            JSON.parse(cached) :
+            null;
         } catch (error) {
           return null;
         }
       }
 
       function scheduleRetry() {
-        if (retryTimer) clearTimeout(retryTimer);
-        retryTimer = setTimeout(loadMenu, retryDelay);
+        if (retryTimer) {
+          clearTimeout(retryTimer);
+        }
+
+        retryTimer =
+          setTimeout(loadMenu, retryDelay);
       }
 
       function scheduleRefresh() {
-        if (refreshTimer) clearTimeout(refreshTimer);
-        refreshTimer = setTimeout(loadMenu, refreshDelay);
+        if (refreshTimer) {
+          clearTimeout(refreshTimer);
+        }
+
+        refreshTimer =
+          setTimeout(loadMenu, refreshDelay);
       }
 
       function handleFailure() {
@@ -502,12 +490,15 @@
         if (cached) {
           try {
             renderMenu(cached, true);
-            setConnectionStatus("Samband fekst ikki – roynir aftur");
           } catch (error) {
-            showMessage("Matskráin fekst ikki fram. Roynir aftur...");
+            showMessage(
+              "Matskráin fekst ikki fram. Roynir aftur..."
+            );
           }
         } else {
-          showMessage("Matskráin fekst ikki fram. Roynir aftur...");
+          showMessage(
+            "Matskráin fekst ikki fram. Roynir aftur..."
+          );
         }
 
         scheduleRetry();
@@ -516,8 +507,6 @@
       function loadMenu() {
         var request = new XMLHttpRequest();
         var finished = false;
-
-        setConnectionStatus("Dagførir…");
 
         request.open(
           "GET",
@@ -528,19 +517,31 @@
         request.timeout = requestTimeout;
 
         request.onreadystatechange = function () {
-          if (request.readyState !== 4 || finished) return;
+          if (
+            request.readyState !== 4 ||
+            finished
+          ) {
+            return;
+          }
 
           finished = true;
 
-          if (request.status >= 200 && request.status < 300) {
+          if (
+            request.status >= 200 &&
+            request.status < 300
+          ) {
             try {
-              var data = JSON.parse(request.responseText);
+              var data =
+                JSON.parse(request.responseText);
+
               renderMenu(data, false);
               saveCache(data);
               scheduleRefresh();
+
             } catch (error) {
               handleFailure();
             }
+
           } else {
             handleFailure();
           }
@@ -571,7 +572,11 @@
       }
 
       updateClock();
-      setInterval(updateClock, 30000);
+
+      setInterval(
+        updateClock,
+        30000
+      );
 
       var cached = loadCache();
 
