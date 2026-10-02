@@ -1,0 +1,27 @@
+{
+  "source": "https://www.glasir.fo/um-skulan/kantinan-a-glasi/",
+  "week_start": "2026-10-05",
+  "updated_at": "2026-10-02T15:46:13Z",
+  "days": [
+    {
+      "day": "Mánadag",
+      "dish": "Svínakjøt við sós og eplum"
+    },
+    {
+      "day": "Týsdag",
+      "dish": "Steikt rís við høsnarunga"
+    },
+    {
+      "day": "Mikudag",
+      "dish": "Lasagnette"
+    },
+    {
+      "day": "Hósdag",
+      "dish": "Hýsa við blomkálssós og eplum"
+    },
+    {
+      "day": "Fríggjadag",
+      "dish": "Gullash við eplamosi"
+    }
+  ]
+}
