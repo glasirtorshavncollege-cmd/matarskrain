@@ -1,6 +1,6 @@
 {
   "source": "https://www.glasir.fo/wp-json/tribe/events/v1/events",
-  "updated_at": "2026-10-09T13:32:47Z",
+  "updated_at": "2026-10-09T14:08:37Z",
   "dates": {
     "2026-10-12": {
       "title": "Heystferia"
@@ -16,6 +16,69 @@
     },
     "2026-10-16": {
       "title": "Heystferia"
+    },
+    "2026-12-21": {
+      "title": "Jólaferia"
+    },
+    "2026-12-22": {
+      "title": "Jólaferia"
+    },
+    "2026-12-23": {
+      "title": "Jólaferia"
+    },
+    "2026-12-24": {
+      "title": "Jólaferia"
+    },
+    "2026-12-25": {
+      "title": "Jólaferia"
+    },
+    "2026-12-26": {
+      "title": "Jólaferia"
+    },
+    "2026-12-27": {
+      "title": "Jólaferia"
+    },
+    "2026-12-28": {
+      "title": "Jólaferia"
+    },
+    "2026-12-29": {
+      "title": "Jólaferia"
+    },
+    "2026-12-30": {
+      "title": "Jólaferia"
+    },
+    "2026-12-31": {
+      "title": "Jólaferia"
+    },
+    "2027-01-01": {
+      "title": "Jólaferia"
+    },
+    "2027-01-02": {
+      "title": "Jólaferia"
+    },
+    "2027-01-03": {
+      "title": "Jólaferia"
+    },
+    "2027-03-22": {
+      "title": "Páskaferia"
+    },
+    "2027-03-23": {
+      "title": "Páskaferia"
+    },
+    "2027-03-24": {
+      "title": "Páskaferia"
+    },
+    "2027-03-30": {
+      "title": "Páskaferia"
+    },
+    "2027-03-31": {
+      "title": "Páskaferia"
+    },
+    "2027-04-01": {
+      "title": "Páskaferia"
+    },
+    "2027-04-02": {
+      "title": "Páskaferia"
     }
   }
 }
