@@ -1,0 +1,43 @@
+name: Dagfør feriur
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "12 4 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-closures:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Heinta repository
+        uses: actions/checkout@v6
+
+      - name: Set Python upp
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Legg Python-pakkar inn
+        run: pip install -r requirements.txt
+
+      - name: Heinta feriur úr kalendaranum
+        run: python scripts/update_closures.py
+
+      - name: Goym broytingar
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add closures.json
+
+          if git diff --cached --quiet; then
+            echo "Ongar broytingar."
+          else
+            git commit -m "Dagfør feriur"
+            git push
+          fi
