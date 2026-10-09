@@ -13,10 +13,19 @@ API_URL = "https://www.glasir.fo/wp-json/tribe/events/v1/events"
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "closures.json"
 
-# Bert heiti, sum vit hava staðfest.
-# Fleiri kunnu leggjast afturat seinni, tá tey eru váttað.
+# Góðkend feriuheiti.
+# Vit loyva frí / frítíð / feria sum orðmyndir,
+# men bert fyri heyst, jól og páskir.
 CLOSURE_TITLES = {
-    "Heystferia",
+    "heystferia",
+    "heystfrí",
+    "heystfrítíð",
+    "jólaferia",
+    "jólafrí",
+    "jólafrítíð",
+    "páskaferia",
+    "páskafrí",
+    "páskafrítíð",
 }
 
 LOOKAHEAD_DAYS = 400
@@ -107,7 +116,7 @@ def build_closures(events: list) -> dict:
             event.get("title", "")
         ).strip()
 
-        if title not in CLOSURE_TITLES:
+        if title.casefold() not in CLOSURE_TITLES:
             continue
 
         start_value = event.get("start_date")
