@@ -1,6 +1,6 @@
 {
   "source": "https://www.glasir.fo/wp-json/tribe/events/v1/events",
-  "updated_at": "2026-10-09T14:08:37Z",
+  "updated_at": "2026-10-09T14:23:09Z",
   "dates": {
     "2026-10-12": {
       "title": "Heystferia"
@@ -68,6 +68,15 @@
     "2027-03-24": {
       "title": "Páskaferia"
     },
+    "2027-03-25": {
+      "title": "Skírishósdagur"
+    },
+    "2027-03-26": {
+      "title": "Langafríggjadagur"
+    },
+    "2027-03-29": {
+      "title": "2. páskadagur"
+    },
     "2027-03-30": {
       "title": "Páskaferia"
     },
@@ -79,6 +88,12 @@
     },
     "2027-04-02": {
       "title": "Páskaferia"
+    },
+    "2027-04-23": {
+      "title": "Dýrabiðidagur"
+    },
+    "2027-05-06": {
+      "title": "Kristi Himmalsferðardagur"
     }
   }
 }
