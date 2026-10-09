@@ -1,6 +1,6 @@
 {
   "source": "https://www.glasir.fo/wp-json/tribe/events/v1/events",
-  "updated_at": "2026-10-09T14:23:09Z",
+  "updated_at": "2026-10-09T14:32:10Z",
   "dates": {
     "2026-10-12": {
       "title": "Heystferia"
@@ -94,6 +94,12 @@
     },
     "2027-05-06": {
       "title": "Kristi Himmalsferðardagur"
+    },
+    "2027-05-16": {
+      "title": "1. Hvítusunnudagur"
+    },
+    "2027-05-17": {
+      "title": "2. Hvítusunnudagur"
     }
   }
 }
