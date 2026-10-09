@@ -14,8 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "closures.json"
 
 # Góðkend feriuheiti.
-# Vit loyva frí / frítíð / feria sum orðmyndir,
-# men bert fyri heyst, jól og páskir.
+# Vit góðtaka ymiskar orðmyndir, men bara fyri heyst, jól og páskir.
 CLOSURE_TITLES = {
     "heystferia",
     "heystfrí",
@@ -26,6 +25,17 @@ CLOSURE_TITLES = {
     "páskaferia",
     "páskafrí",
     "páskafrítíð",
+}
+
+# Góðkendir halgidagar frameftir.
+HOLIDAY_TITLES = {
+    "skírishósdagur",
+    "langafríggjadagur",
+    "2. páskadagur",
+    "dýrabiðidagur",
+    "kristi himmalsferðardagur",
+    "1. hvítusunnudagur",
+    "2. hvítusunnudagur",
 }
 
 LOOKAHEAD_DAYS = 400
@@ -116,7 +126,12 @@ def build_closures(events: list) -> dict:
             event.get("title", "")
         ).strip()
 
-        if title.casefold() not in CLOSURE_TITLES:
+        normalised = title.casefold()
+
+        if (
+            normalised not in CLOSURE_TITLES
+            and normalised not in HOLIDAY_TITLES
+        ):
             continue
 
         start_value = event.get("start_date")
