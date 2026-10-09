@@ -25,7 +25,7 @@ jobs:
       - name: Legg Python-pakkar inn
         run: pip install -r requirements.txt
 
-      - name: Heinta feriur úr kalendaranum
+      - name: Heinta feriur og halgidagar úr kalendaranum
         run: python scripts/update_closures.py
 
       - name: Goym broytingar
@@ -38,6 +38,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Ongar broytingar."
           else
-            git commit -m "Dagfør feriur"
+            git commit -m "Dagfør feriur og halgidagar"
             git push
           fi
