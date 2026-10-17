@@ -1,10 +1,7 @@
 {
   "source": "https://www.glasir.fo/wp-json/tribe/events/v1/events",
-  "updated_at": "2026-10-16T09:01:28Z",
+  "updated_at": "2026-10-17T08:33:00Z",
   "dates": {
-    "2026-10-16": {
-      "title": "Heystferia"
-    },
     "2026-12-21": {
       "title": "Jólaferia"
     },
