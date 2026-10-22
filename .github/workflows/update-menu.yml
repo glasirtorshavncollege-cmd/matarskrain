@@ -3,7 +3,7 @@ name: Dagfør matskrá
 on:
   workflow_dispatch:
   schedule:
-    - cron: "33 * * * *"
+    - cron: "30 * * * *"
 
 permissions:
   contents: write
