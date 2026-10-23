@@ -1,0 +1,27 @@
+{
+  "source": "https://www.glasir.fo/um-skulan/kantinan-a-glasi/",
+  "week_start": "2026-10-26",
+  "updated_at": "2026-10-23T12:20:07Z",
+  "days": [
+    {
+      "day": "Mánadag",
+      "dish": "Tikka masala við rísi (glutenfríur valmøguleiki)"
+    },
+    {
+      "day": "Týsdag",
+      "dish": "Svínasnitzel við ertrum, bearnaise sós og eplum (glutenfríur valmøguleiki)"
+    },
+    {
+      "day": "Mikudag",
+      "dish": "Dampa hýsa við piparfrukt sós og eplum (glutenfríur valmøguleiki)"
+    },
+    {
+      "day": "Hósdag",
+      "dish": "Swedish meatballs við eplamosi og tyttebersúltitoy"
+    },
+    {
+      "day": "Fríggjadag",
+      "dish": "Bolgonese við pasta"
+    }
+  ]
+}
