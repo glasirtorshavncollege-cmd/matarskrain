@@ -126,15 +126,15 @@
 
     .badge {
       position: absolute;
-      top: -42px;
+      top: -48px;
       left: 50%;
-      width: 198px;
-      margin-left: -99px;
-      padding: 17px 0 18px;
-      border-radius: 36px;
+      width: 300px;
+      margin-left: -150px;
+      padding: 15px 0 16px;
+      border-radius: 34px;
       background: #70ad2c;
       color: #ffffff;
-      font-size: 38px;
+      font-size: 34px;
       font-weight: 700;
       line-height: 1;
       text-align: center;
@@ -323,8 +323,13 @@
 
         dish.style.fontSize = size + "px";
 
-        while (size > minSize &&
-              (dish.scrollHeight > box.clientHeight || dish.scrollWidth > box.clientWidth)) {
+        while (
+          size > minSize &&
+          (
+            dish.scrollHeight > box.clientHeight ||
+            dish.scrollWidth > box.clientWidth
+          )
+        ) {
           size = size - 2;
           dish.style.fontSize = size + "px";
         }
@@ -343,7 +348,9 @@
 
         if (day >= 1 && day <= 4 && hour >= 13) {
           targetDate = new Date(
-            now.getFullYear(), now.getMonth(), now.getDate() + 1,
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1,
             12, 0, 0, 0
           );
 
@@ -358,7 +365,9 @@
 
         if (day === 5 && hour >= 13) {
           targetDate = new Date(
-            now.getFullYear(), now.getMonth(), now.getDate() + 3,
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 3,
             12, 0, 0, 0
           );
 
@@ -372,7 +381,9 @@
         }
 
         targetDate = new Date(
-          now.getFullYear(), now.getMonth(), now.getDate(),
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate(),
           12, 0, 0, 0
         );
 
@@ -392,12 +403,16 @@
         document.getElementById("menuArea").innerHTML =
           '<article class="card">' +
             '<div class="topline" style="background:' + color + '"></div>' +
-            '<div class="badge" style="background:' + color + '">' + escapeHtml(badge) + '</div>' +
+            '<div class="badge" style="background:' + color + '">' +
+              escapeHtml(badge) +
+            '</div>' +
             '<h2 class="day">' + escapeHtml(dayName) + '</h2>' +
             '<div class="rule" style="background:' + color + '"></div>' +
             '<div class="dish-box" id="dishBox">' +
               '<div class="dish-cell">' +
-                '<p class="dish" id="dishText">' + escapeHtml(dish) + '</p>' +
+                '<p class="dish" id="dishText">' +
+                  escapeHtml(dish) +
+                '</p>' +
               '</div>' +
             '</div>' +
           '</article>';
@@ -451,27 +466,41 @@
 
       function saveCache(storageKey, data) {
         try {
-          localStorage.setItem(storageKey, JSON.stringify(data));
+          localStorage.setItem(
+            storageKey,
+            JSON.stringify(data)
+          );
         } catch (error) {}
       }
 
       function loadCache(storageKey) {
         try {
           var cached = localStorage.getItem(storageKey);
-          return cached ? JSON.parse(cached) : null;
+
+          return cached
+            ? JSON.parse(cached)
+            : null;
         } catch (error) {
           return null;
         }
       }
 
       function scheduleRetry() {
-        if (retryTimer) clearTimeout(retryTimer);
-        retryTimer = setTimeout(loadAll, retryDelay);
+        if (retryTimer) {
+          clearTimeout(retryTimer);
+        }
+
+        retryTimer =
+          setTimeout(loadAll, retryDelay);
       }
 
       function scheduleRefresh() {
-        if (refreshTimer) clearTimeout(refreshTimer);
-        refreshTimer = setTimeout(loadAll, refreshDelay);
+        if (refreshTimer) {
+          clearTimeout(refreshTimer);
+        }
+
+        refreshTimer =
+          setTimeout(loadAll, refreshDelay);
       }
 
       function handleMenuFailure(target) {
@@ -505,21 +534,44 @@
           target.source + "?v=" + new Date().getTime(),
           true
         );
+
         request.timeout = requestTimeout;
 
         request.onreadystatechange = function () {
-          if (request.readyState !== 4 || finished) return;
+          if (
+            request.readyState !== 4 ||
+            finished
+          ) {
+            return;
+          }
+
           finished = true;
 
-          if (request.status >= 200 && request.status < 300) {
+          if (
+            request.status >= 200 &&
+            request.status < 300
+          ) {
             try {
-              var data = JSON.parse(request.responseText);
-              renderMenu(data, target, false);
-              saveCache(target.storageKey, data);
+              var data =
+                JSON.parse(request.responseText);
+
+              renderMenu(
+                data,
+                target,
+                false
+              );
+
+              saveCache(
+                target.storageKey,
+                data
+              );
+
               scheduleRefresh();
+
             } catch (error) {
               handleMenuFailure(target);
             }
+
           } else {
             handleMenuFailure(target);
           }
@@ -541,6 +593,7 @@
 
         try {
           request.send();
+
         } catch (error) {
           if (!finished) {
             finished = true;
@@ -559,25 +612,45 @@
           "closures.json?v=" + new Date().getTime(),
           true
         );
+
         request.timeout = requestTimeout;
 
         function continueWithCachedClosures() {
-          currentClosures = loadCache(closuresStorageKey);
+          currentClosures =
+            loadCache(closuresStorageKey);
+
           loadMenu(target);
         }
 
         request.onreadystatechange = function () {
-          if (request.readyState !== 4 || finished) return;
+          if (
+            request.readyState !== 4 ||
+            finished
+          ) {
+            return;
+          }
+
           finished = true;
 
-          if (request.status >= 200 && request.status < 300) {
+          if (
+            request.status >= 200 &&
+            request.status < 300
+          ) {
             try {
-              currentClosures = JSON.parse(request.responseText);
-              saveCache(closuresStorageKey, currentClosures);
+              currentClosures =
+                JSON.parse(request.responseText);
+
+              saveCache(
+                closuresStorageKey,
+                currentClosures
+              );
+
               loadMenu(target);
+
             } catch (error) {
               continueWithCachedClosures();
             }
+
           } else {
             continueWithCachedClosures();
           }
@@ -599,6 +672,7 @@
 
         try {
           request.send();
+
         } catch (error) {
           if (!finished) {
             finished = true;
@@ -612,20 +686,41 @@
       }
 
       updateClock();
-      setInterval(updateClock, 30000);
 
-      currentClosures = loadCache(closuresStorageKey);
+      setInterval(
+        updateClock,
+        30000
+      );
 
-      var initialTarget = getDisplayTarget(new Date());
-      var initialClosure = getClosure(initialTarget);
+      currentClosures =
+        loadCache(closuresStorageKey);
+
+      var initialTarget =
+        getDisplayTarget(new Date());
+
+      var initialClosure =
+        getClosure(initialTarget);
+
       var cached;
 
       if (initialClosure) {
-        renderClosure(initialTarget, initialClosure);
+        renderClosure(
+          initialTarget,
+          initialClosure
+        );
+
       } else {
-        cached = loadCache(initialTarget.storageKey);
+        cached =
+          loadCache(initialTarget.storageKey);
+
         if (cached) {
-          try { renderMenu(cached, initialTarget, true); } catch (error) {}
+          try {
+            renderMenu(
+              cached,
+              initialTarget,
+              true
+            );
+          } catch (error) {}
         }
       }
 
