@@ -1,27 +1,27 @@
 {
   "source": "https://www.glasir.fo/um-skulan/kantinan-a-glasi/",
   "week_start": "2026-11-16",
-  "updated_at": "2026-11-14T14:24:37Z",
+  "updated_at": "2026-11-14T19:23:46Z",
   "days": [
     {
       "day": "Mánadag",
-      "dish": "Nudlurættur"
+      "dish": "Karrybollar við rís (glutenfríur valmøguleiki)"
     },
     {
       "day": "Týsdag",
-      "dish": "Wrap og burgari við dunnukjøti (glutenfríur valmøguleiki)"
+      "dish": "Fiskafrikadellir við eplum og smelt (glutenfríur valmøguleiki)"
     },
     {
       "day": "Mikudag",
-      "dish": "Raspa flak og kips"
+      "dish": "Rís rættur (glutenfríur valmøguleiki)"
     },
     {
       "day": "Hósdag",
-      "dish": "Griskar frikadellir við eplasalati og tzatziki (glutenfríur valmøguleiki)"
+      "dish": "Hakkibúffur við rómaeplum og sós (glutenfríur valmøguleiki)"
     },
     {
       "day": "Fríggjadag",
-      "dish": "Svínalundir við soppasós og eplum (glutenfríur valmøguleiki)"
+      "dish": "Svínarullusteik við eplum og sós (glutenfríur valmøguleiki)"
     }
   ]
 }
