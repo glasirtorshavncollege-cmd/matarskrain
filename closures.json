@@ -1,6 +1,6 @@
 {
   "source": "https://www.glasir.fo/wp-json/tribe/events/v1/events",
-  "updated_at": "2026-11-18T13:01:25Z",
+  "updated_at": "2026-11-19T13:02:17Z",
   "dates": {
     "2026-12-21": {
       "title": "Jólaferia"
@@ -85,6 +85,33 @@
     },
     "2027-05-17": {
       "title": "2. Hvítusunnudagur"
+    },
+    "2027-10-09": {
+      "title": "HEYSTFRÍTÍÐ"
+    },
+    "2027-10-10": {
+      "title": "HEYSTFRÍTÍÐ"
+    },
+    "2027-10-11": {
+      "title": "HEYSTFRÍTÍÐ"
+    },
+    "2027-10-12": {
+      "title": "HEYSTFRÍTÍÐ"
+    },
+    "2027-10-13": {
+      "title": "HEYSTFRÍTÍÐ"
+    },
+    "2027-10-14": {
+      "title": "HEYSTFRÍTÍÐ"
+    },
+    "2027-10-15": {
+      "title": "HEYSTFRÍTÍÐ"
+    },
+    "2027-10-16": {
+      "title": "HEYSTFRÍTÍÐ"
+    },
+    "2027-10-17": {
+      "title": "HEYSTFRÍTÍÐ"
     }
   }
 }
